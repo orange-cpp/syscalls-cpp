@@ -9,6 +9,7 @@ namespace syscall::hashing
 {
     using Hash_t = uint64_t;
 
+    [[nodiscard]]
     constexpr Hash_t getCompileTimeSeed()
     {
         Hash_t seed = 0;
@@ -28,6 +29,7 @@ namespace syscall::hashing
     constexpr Hash_t polyKey1 = 0xAF6F01BD5B2D7583ULL ^ currentSeed;
     constexpr Hash_t polyKey2 = 0xB4F281729182741DULL ^ std::rotr(currentSeed, 7);
 
+    [[nodiscard]]
     consteval Hash_t calculateHash(const char* szData)
     {
         Hash_t hash = polyKey1;
@@ -38,7 +40,7 @@ namespace syscall::hashing
         }
         return hash;
     }
-
+    [[nodiscard]]
     consteval Hash_t calculateHash(const char* szData, size_t uLength)
     {
         Hash_t hash = polyKey1;
@@ -50,7 +52,7 @@ namespace syscall::hashing
         return hash;
     }
 
-
+    [[nodiscard]]
     inline Hash_t calculateHashRuntime(const char* szData)
     {
         Hash_t hash = polyKey1;
@@ -61,7 +63,7 @@ namespace syscall::hashing
         }
         return hash;
     }
-
+    [[nodiscard]]
     inline Hash_t calculateHashRuntime(const char* szData, size_t uLength)
     {
         Hash_t hash = polyKey1;

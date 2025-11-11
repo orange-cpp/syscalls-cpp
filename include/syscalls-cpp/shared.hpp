@@ -1,8 +1,6 @@
 #ifndef _SYSCALL_SHARED_HPP_
 #define _SYSCALL_SHARED_HPP_
 
-#define WIN32_LEAN_AND_MEAN
-#define NOMINMAX
 #include <Windows.h>
 #include <winternl.h>
 
@@ -16,8 +14,9 @@ namespace syscall::native
         return status >= 0;
     }
 
-    
-    [[nodiscard]] constexpr HANDLE getCurrentProcess() noexcept
+    //NOTE: Cant make constexpr since reinterpret_cast or c-style cast
+    // are banned in constant expressions,
+    [[nodiscard]] HANDLE getCurrentProcess() noexcept
     {
         return reinterpret_cast<HANDLE>(-1);
     }

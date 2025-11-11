@@ -9,6 +9,7 @@
 
 namespace syscall::native
 {
+    [[nodiscard]]
     inline PPEB getCurrentPEB()
     {
 #if SYSCALL_PLATFORM_WINDOWS_64
@@ -17,7 +18,7 @@ namespace syscall::native
         return (PEB*)(__readfsdword(0x30));
 #endif
     }
-
+    [[nodiscard]]
     inline hashing::Hash_t calculateHashRuntimeCi(const wchar_t* wzData)
     {
         if (!wzData)
@@ -34,7 +35,7 @@ namespace syscall::native
         }
         return hash;
     }
-
+    [[nodiscard]]
     inline HMODULE getModuleBase(const wchar_t* wzModuleName)
     {
         auto pPeb = getCurrentPEB();
@@ -55,7 +56,7 @@ namespace syscall::native
         }
         return nullptr;
     }
-
+    [[nodiscard]]
     inline HMODULE getModuleBase(hashing::Hash_t uModuleHash)
     {
         auto pPeb = getCurrentPEB();
@@ -76,7 +77,7 @@ namespace syscall::native
         }
         return nullptr;
     }
-
+    [[nodiscard]]
     inline void* getExportAddress(HMODULE hModuleBase, const char* szExportName)
     {
         if (!hModuleBase || !szExportName)
@@ -155,7 +156,7 @@ namespace syscall::native
         }
         return nullptr;
     }
-
+    [[nodiscard]]
     inline void* getExportAddress(HMODULE hModuleBase, hashing::Hash_t uExportHash)
     {
         if (!hModuleBase)
@@ -235,7 +236,7 @@ namespace syscall::native
         }
         return nullptr;
     }
-
+    [[nodiscard]]
     SYSCALL_FORCE_INLINE uint64_t rdtscp()
     {
         unsigned int uProcessorId;

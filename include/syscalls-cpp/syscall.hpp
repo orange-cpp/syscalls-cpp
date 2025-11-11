@@ -24,7 +24,7 @@
 namespace syscall
 {
 
-    struct ModuleInfo_t
+    struct ModuleInfo_t final
     {
         uint8_t* m_pModuleBase = nullptr;
         IMAGE_NT_HEADERS* m_pNtHeaders = nullptr;
@@ -37,7 +37,7 @@ namespace syscall
     using SyscallKey_t = hashing::Hash_t;
 #endif
 
-    struct SyscallEntry_t
+    struct SyscallEntry_t final
     {
         SyscallKey_t m_key;
         uint32_t m_uSyscallNumber;
@@ -45,7 +45,7 @@ namespace syscall
     };
 
 
-    thread_local struct ExceptionContext_t
+    thread_local struct ExceptionContext_t final
     {
         bool m_bShouldHandle = false;
         const void* m_pExpectedExceptionAddress = nullptr;
@@ -53,7 +53,7 @@ namespace syscall
         uint32_t m_uSyscallNumber = 0;
     } pExceptionContext;
 
-    class CExceptionContextGuard
+    class CExceptionContextGuard final
     {
     public:
         CExceptionContextGuard(const void* pExpectedAddress, void* pSyscallGadget, uint32_t uSyscallNumber)
@@ -111,7 +111,7 @@ namespace syscall
     {
         namespace allocator
         {
-            struct section
+            struct section final
             {
                 static bool allocate(size_t uRegionSize, const std::span<const uint8_t> vecBuffer, void*& pOutRegion, HANDLE& /*unused*/)
                 {
@@ -163,7 +163,7 @@ namespace syscall
                 }
             };
 
-            struct heap
+            struct heap final
             {
                 static bool allocate(size_t uRegionSize, const std::span<const uint8_t> vecBuffer, void*& pOutRegion, HANDLE& hOutHeapHandle)
                 {
@@ -209,7 +209,7 @@ namespace syscall
                 }
             };
 
-            struct memory
+            struct memory final
             {
                 static bool allocate(size_t uRegionSize, const std::span<const uint8_t> vecBuffer, void*& pOutRegion, HANDLE& /*unused*/)
                 {
@@ -436,7 +436,7 @@ namespace syscall
                             });
 
                         uint32_t uSyscallNumber = 0;
-                        for (const auto& [_, szName] : vecZwFunctions) 
+                        for (const auto& [_, szName] : vecZwFunctions)
                         {
                             char szNtName[128];
                             std::copy_n(szName, sizeof(szNtName)-1, szNtName);
